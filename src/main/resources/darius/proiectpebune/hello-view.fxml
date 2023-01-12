@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox layoutX="-5.0" layoutY="-1.0" prefHeight="426.0" prefWidth="1207.0">
+         <children>
+            <AnchorPane prefHeight="425.0" prefWidth="1200.0" style="-fx-background-color: #171E30;">
+               <children>
+                  <Text fill="#d7d0d0" layoutX="331.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Currency Converter">
+                     <font>
+                        <Font size="64.0" />
+                     </font>
+                  </Text>
+               </children></AnchorPane>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="266.0" layoutY="290.0" prefHeight="267.0" prefWidth="700.0" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-style: 80;" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="234.0">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <VBox layoutX="-3.0" prefHeight="202.0" prefWidth="706.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="152.0" spacing="3.0">
+                           <children>
+                              <Label lineSpacing="3.0" text="Amount">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Label>
+                              <TextField prefHeight="26.0" prefWidth="100.0" promptText="Enter Amount" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="313.0" layoutY="10.0" prefHeight="100.0" prefWidth="171.0" spacing="3.0">
+                           <children>
+                              <Label text="From">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Label>
+                              <ComboBox prefHeight="27.0" prefWidth="165.0" promptText="Select Country" style="-fx-background-color: white; -fx-border-color: #808B96;" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="388.0" layoutY="10.0" prefHeight="100.0" prefWidth="151.0" spacing="3.0">
+                           <children>
+                              <Label text="To">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Label>
+                              <ComboBox prefWidth="150.0" promptText="Select Country" style="-fx-background-color: white; -fx-border-color: #808B96;" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets top="20.0" />
+               </padding></VBox>
+            <HBox layoutX="-5.0" layoutY="111.0" prefHeight="165.0" prefWidth="715.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="157.0" prefWidth="351.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="330.0" text="1 USD =" textAlignment="CENTER" wrapText="true" />
+                        <Label alignment="CENTER" layoutX="109.0" layoutY="10.0" prefHeight="46.0" prefWidth="342.0" text="dumezeu'" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="164.0" layoutY="61.0" prefHeight="18.0" prefWidth="319.0" text="1 USD =" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin></VBox>
+                  <VBox alignment="CENTER_RIGHT" prefHeight="138.0" prefWidth="340.0">
+                     <children>
+                        <Button layoutX="50.0" mnemonicParsing="false" style="-fx-background-color: #0720EC;" text="Convert" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Thin" size="17.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="10.0" right="30.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
