@@ -47,7 +47,7 @@ public class DatabaseConnection {
 
     public static void addTransaction(String username,String from_currency, double value_from, String to_currency, double value_to, double amount) {
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
-            String query = "INSERT INTO transactions (username,from_currency, value_from,to_currency, value_to, amount) VALUES (?, ?, ?, ?,?,?)";
+            String query = "INSERT INTO exchanges (username,from_currency, value_from,to_currency, value_to, amount) VALUES (?, ?, ?, ?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
             statement.setString(2, from_currency);
@@ -95,7 +95,7 @@ public class DatabaseConnection {
 
             Statement stmt = conn.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM transactions");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM exchanges");
 
             while (rs.next()) {
                 int id = rs.getInt("id");

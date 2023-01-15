@@ -3,6 +3,7 @@ package darius.proiectpebune;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,11 +14,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static darius.proiectpebune.DatabaseConnection.*;
 
@@ -198,7 +202,7 @@ public class CurrencyExchange extends Application {
         Button viewUsersButton = new Button("View Users");
         adminGrid.add(viewUsersButton, 0, 1);
 
-        Button viewTransactionsButton = new Button("View Transactions");
+        Button viewTransactionsButton = new Button("View Operations");
         adminGrid.add(viewTransactionsButton, 1, 1);
 
         Button backButton = new Button("Back");
@@ -280,51 +284,49 @@ public class CurrencyExchange extends Application {
     }
 
 
-    public void navigateToAdminScene(){
-        primaryStage.setScene(adminScene);
-    }
-
     public void initializeAddUserScene() {
-        // Create a GridPane to hold the UI components of the Add User page
         GridPane addUserGrid = new GridPane();
-        // Add UI components to the addUserGrid
+        addUserGrid.setAlignment(Pos.CENTER);
+        addUserGrid.setHgap(10);
+        addUserGrid.setVgap(10);
+        addUserGrid.setPadding(new Insets(25, 25, 25, 25));
+
         TextField usernameField = new TextField();
-        TextField passwordField = new TextField();
+        usernameField.setPromptText("Username");
+        GridPane.setHalignment(usernameField, HPos.CENTER);
+        addUserGrid.add(usernameField, 0, 1);
 
-        // Create a button to submit the new user
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("Password");
+        GridPane.setHalignment(passwordField, HPos.CENTER);
+        addUserGrid.add(passwordField, 0, 2);
+
         Button submitButton = new Button("Submit");
-        Button backButton = new Button("Back");
-        addUserGrid.add(backButton, 1,5);
-        // Add the text fields and button to the adminGrid
-        addUserGrid.add(new Label("Username:"), 0, 2);
-        addUserGrid.add(usernameField, 1, 2);
-        addUserGrid.add(new Label("Password:"), 0, 3);
-        addUserGrid.add(passwordField, 1, 3);
-        addUserGrid.add(submitButton, 1, 4);
-
-        // Set the action for the submit button
-        submitButton.setOnAction(submitEvent -> {
-            String username1 = usernameField.getText();
+        GridPane.setHalignment(submitButton, HPos.CENTER);
+        submitButton.setOnAction(e -> {
+            String username = usernameField.getText();
             String password = passwordField.getText();
 
-            // Validate the inputs, then add the user
-            if (!username1.isEmpty() && !password.isEmpty()) {
+            if (!username.isEmpty() && !password.isEmpty()) {
                 //  call addUser method, for now it will just print the input
-                System.out.println("Added user: " + username1 + " - " + password);
-                addUser(username1, password);
+                System.out.println("Added user: " + username + " - " + password);
+                addUser(username, password);
             } else {
                 // Show an error message
                 System.out.println("Error: Invalid username or password.");
             }
         });
+        addUserGrid.add(submitButton, 0, 4);
 
+        Button backButton = new Button("Back");
+        GridPane.setHalignment(backButton, HPos.LEFT);
         backButton.setOnAction(backEvent -> {
             primaryStage.setScene(adminScene);
             usernameField.clear();
             passwordField.clear();
         });
-        addUserScene = new Scene(addUserGrid,400, 375);
-
+        addUserGrid.add(backButton, 0, 0);
+        addUserScene = new Scene(addUserGrid, 400, 375);
     }
 
     public void navigateToAddUserScene(){
@@ -332,18 +334,21 @@ public class CurrencyExchange extends Application {
         primaryStage.show();
     }
 
-    public void initializeDeleteUserScene() {
-
-        GridPane deleteUserGrid = new GridPane();
+    public void initializeDeleteUserScene(){
+    GridPane deleteUserGrid = new GridPane();
         List<String> userList = getAllUsers();
         ListView<String> userListView = new ListView<>();
         userListView.getItems().addAll(userList);
         deleteUserGrid.add(userListView, 0, 5);
-
+        GridPane.setHalignment(userListView, HPos.CENTER);
+        userListView.setPrefWidth(375);
+        userListView.setPrefHeight(350);
         Button deleteSelectedButton = new Button("Delete Selected User");
         deleteUserGrid.add(deleteSelectedButton, 0, 6);
+        GridPane.setHalignment(deleteSelectedButton, HPos.CENTER);
         Button backButton = new Button("Back");
         deleteUserGrid.add(backButton, 1,5);
+        GridPane.setHalignment(backButton, HPos.CENTER);
 
         // Set the action for the deleteSelected button
         deleteSelectedButton.setOnAction(deletionEvent -> {
@@ -362,9 +367,7 @@ public class CurrencyExchange extends Application {
             primaryStage.setScene(adminScene);
         });
         deleteUserScene = new Scene(deleteUserGrid,400, 375);
-        
     }
-
     public void navigateToDeleteUserScene() {
 
         primaryStage.setScene(deleteUserScene);
@@ -377,15 +380,21 @@ public class CurrencyExchange extends Application {
         List<String> userList = getAllUsers();
         ListView<String> userListView = new ListView<>();
         userListView.getItems().addAll(userList);
-        // Add the ListView to the viewUsersGrid
+        userListView.setPrefWidth(375);
+        userListView.setPrefHeight(350);
+        GridPane.setHalignment(userListView, HPos.CENTER);
+
+// Add the ListView to the viewUsersGrid
         viewUsersGrid.add(userListView, 0, 0);
-        // Add a back button to viewUsersGrid
+
+// Add a back button to viewUsersGrid
         Button backButton = new Button("Back");
+        GridPane.setHalignment(backButton, HPos.CENTER);
         viewUsersGrid.add(backButton, 0, 1);
         backButton.setOnAction(backEvent -> {
             primaryStage.setScene(adminScene);
         });
-        viewUsersScene = new Scene(viewUsersGrid,400, 375);
+        viewUsersScene = new Scene(viewUsersGrid, 400, 375);
     }
 
     public void navigateToViewUsersScene(){
@@ -393,24 +402,101 @@ public class CurrencyExchange extends Application {
         primaryStage.show();
     }
 
-    public void initializeViewTransactionsScene(){
-        GridPane viewTransactionsGrid = new GridPane();
-        List<Transaction> transactionList = DatabaseConnection.getTransactions();
+    public void initializeViewTransactionsScene()
+    {
+            GridPane viewTransactionsGrid = new GridPane();
+            viewTransactionsGrid.setAlignment(Pos.CENTER);
+            viewTransactionsGrid.setHgap(10);
+            viewTransactionsGrid.setVgap(10);
         // Create a ListView to display the list of transactions
         ListView<Transaction> transactionListView = new ListView<>();
-        transactionListView.getItems().addAll(transactionList);
-        // Add the ListView to the adminGrid
+        transactionListView.setCellFactory(new Callback<ListView<Transaction>, ListCell<Transaction>>() {
+            @Override
+            public ListCell<Transaction> call(ListView<Transaction> param) {
+                return new ListCell<Transaction>(){
+                    @Override
+                    protected void updateItem(Transaction item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(item!=null){
+                            setText("User ID: " + item.getUsername() + " Amount: " + item.getAmount() + " Currency From: " + item.getTo_currency()+ " Currency To: " + item.getFrom_currency());
+                        }
+                    }
+                };
+            }
+        });
+
+
+// Create a text field for user to input currency filter
+        TextField filterCurrencyField = new TextField();
+        GridPane.setHalignment(filterCurrencyField, HPos.CENTER);
+        viewTransactionsGrid.add(filterCurrencyField, 0, 1);
+
+// Create a button for the user to submit the currency filter
+        Button filterCurrencyButton = new Button("Filter by Currency");
+        GridPane.setHalignment(filterCurrencyButton, HPos.CENTER);
+        viewTransactionsGrid.add(filterCurrencyButton, 1, 1);
+        filterCurrencyButton.setOnAction(filterEvent -> {
+            String filterCurrency = filterCurrencyField.getText();
+            List<Transaction> transactionList = DatabaseConnection.getTransactions();
+            List<Transaction> filteredTransactionList = transactionList.stream()
+                    .filter(transaction -> transaction.getFrom_currency().equalsIgnoreCase(filterCurrency) || transaction.getTo_currency().equalsIgnoreCase(filterCurrency))
+                    .collect(Collectors.toList());
+            transactionListView.getItems().setAll(filteredTransactionList);
+        });
+        filterCurrencyField.setAlignment(Pos.CENTER);
+        GridPane.setHalignment(filterCurrencyField, HPos.CENTER);
+        GridPane.setHalignment(filterCurrencyButton, HPos.CENTER);
+        transactionListView.setPrefWidth(375);
+        transactionListView.setPrefHeight(350);
         viewTransactionsGrid.add(transactionListView, 0, 5);
+
+        // Create a ComboBox to select the sorting method
+        ComboBox<String> sortingMethodComboBox = new ComboBox<>();
+        sortingMethodComboBox.getItems().addAll("Sort by Highest Amount", "Sort by Lowest Amount", "Sort Alphabetically");
+        viewTransactionsGrid.add(sortingMethodComboBox, 0, 2);
+        GridPane.setHalignment(sortingMethodComboBox, HPos.CENTER);
+
         // Add a back button to adminGrid
         Button backButton = new Button("Back");
         viewTransactionsGrid.add(backButton, 0, 6);
+        GridPane.setHalignment(backButton, HPos.CENTER);
         backButton.setOnAction(backEvent -> {
             primaryStage.setScene(adminScene);
+            filterCurrencyField.clear();
         });
-        viewTransactionsScene = new Scene(viewTransactionsGrid,400, 375);
 
-    }
+        // Set the action for the sorting method ComboBox
+        sortingMethodComboBox.setOnAction(sortEvent -> {
+                    String selectedSortingMethod = sortingMethodComboBox.getSelectionModel().getSelectedItem();
+                    List<Transaction> transactionList = DatabaseConnection.getTransactions();
 
+            if ("Sort by Highest Amount".equals(selectedSortingMethod)) {
+                transactionList.sort(Comparator.comparingDouble(Transaction::getAmount).reversed());
+                transactionListView.getItems().setAll(transactionList);
+            } else if ("Sort by Lowest Amount".equals(selectedSortingMethod)) {
+                transactionList.sort(Comparator.comparingDouble(Transaction::getAmount));
+                transactionListView.getItems().setAll(transactionList);
+            } else if ("Sort Alphabetically".equals(selectedSortingMethod)) {
+                transactionList.sort(Comparator.comparing(Transaction::getUsername));
+                transactionListView.getItems().setAll(transactionList);
+            }
+                });
+
+// Format the view nicely
+            viewTransactionsGrid.setHgap(10);
+            viewTransactionsGrid.setVgap(10);
+            viewTransactionsGrid.setPadding(new Insets(10, 10, 10, 10));
+
+// center the elements in the grid
+            GridPane.setHalignment(transactionListView, HPos.CENTER);
+            GridPane.setHalignment(sortingMethodComboBox, HPos.CENTER);
+            GridPane.setHalignment(backButton, HPos.CENTER);
+            GridPane.setHalignment(filterCurrencyField, HPos.CENTER);
+            GridPane.setHalignment(filterCurrencyButton, HPos.CENTER);
+
+            viewTransactionsScene = new Scene(viewTransactionsGrid, 400, 375);
+
+        }
     public void navigateToViewTransactionsScene(){
         primaryStage.setScene(viewTransactionsScene);
         primaryStage.show();
